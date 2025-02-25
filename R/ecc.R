@@ -1,36 +1,38 @@
 
-
-ecc1D <- function(radii)
+#' Plot Euler Characteristic Curve for 1D Data
+#'
+#' This function computes and plots the Euler characteristic curve for a given set of 1D data points.
+#' The Euler characteristic is calculated by measuring the number of connected components minus the number of holes
+#' at different radius levels based on the distances between consecutive points.
+#'
+#' @param data Numeric vector, a set of data points in 1D.
+#'
+#' @details
+#' The function first computes the distances between consecutive sorted data points, and then uses these distances
+#' to create the Euler characteristic curve. The Euler characteristic is calculated as the difference between the number
+#' of connected components and the number of holes as the radius (or merging time) increases.
+#' The curve is plotted on a logarithmic scale for both the x-axis (radius) and y-axis (Euler characteristic).
+#'
+#' @return A plot of the Euler characteristic curve with the radius (merging time) on the x-axis
+#'         and the Euler characteristic on the y-axis.
+#'
+#' @export
+ecc1D <- function(data)
 {
-  # Step 1: Sort the radii (time points)
-  radii_sorted <- sort(radii)
+  # Step 1: Sort the radii
+  r <- sort(diff(sort(data)))/2
 
   # Initialize vectors to track the number of connected components and holes
-  C <- numeric(length(radii_sorted))  # Number of connected components
-  H <- numeric(length(radii_sorted))  # Number of holes
-
-  # Track number of components and holes at each point
-  components <- length(radii)  # Initially, all points are separate
-  holes <- 0  # No holes at the beginning
-
-  # For each merge time (radius), update the components and holes
-  for (i in 1:length(radii_sorted))
-  {
-    # Each merge reduces the number of components by 1
-    components <- components - 1
-    # Each time a merge happens, no new holes are created on a real line
-    # So holes remain unchanged.
-
-    # Store the values for each radius
-    C[i] <- components
-    H[i] <- holes
-  }
+  Euler <- length(r):1
 
   # Euler characteristic is C(t) - H(t)
-  euler_characteristic <- C - H
+  pointX <- rep(r, each = 2)
+  pointX <- pointX[-1]
+  pointY <- rep(Euler, each = 2)
+  pointY <- pointY[-length(pointY)]
 
   # Step 2: Plot the Euler characteristic curve
-  plot(radii_sorted, euler_characteristic, type = "l",
+  plot(log(pointX), log(pointY), type = "l",
        col = "blue", lwd = 2,
        xlab = "Radius (Merging Time)",
        ylab = "Euler Characteristic",
