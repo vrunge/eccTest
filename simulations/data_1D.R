@@ -23,3 +23,12 @@ ecc1D(dataU)
 dataG <- data_gaussian_corrupted_1D(50000, l = NULL, r = NULL)
 ecc1D(dataG)
 
+
+####
+
+
+dataU <- data_Uniform_mixture_1D(N = 500, L1 = 5, L2 = 5, M = 0, a = 0.5, b = 0.5)
+ecc1D(dataU)
+dataU2 <- c(dataU, 2*max(dataU))
+ecc1D(dataU2)
+
