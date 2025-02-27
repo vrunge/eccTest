@@ -3,7 +3,6 @@
 ### normal distribution tests. Corruption. What to do? ECC test?
 ###
 
-
 n <- 100000
 data1 <- rnorm(n, mean = 0, sd = 1)  # Generate 100 Gaussian data points
 hist(data1, breaks = 100)
